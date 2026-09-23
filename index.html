@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Brilliant Kid's Academy - Smart School ERP Portal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; }
+        
+        .header { background: linear-gradient(135deg, #1B365D, #0F2027); color: white; padding: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-bottom: 4px solid #f39c12; display: flex; align-items: center; justify-content: center; gap: 20px; }
+        .header img { width: 75px; height: 75px; object-fit: contain; border-radius: 50%; border: 2px solid #f39c12; background: white; padding: 2px; }
+        .header-text h1 { font-size: 24px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px; }
+        .header-text p { font-size: 12px; color: #cbd5e1; font-style: italic; }
+
+        .container { max-width: 1100px; margin: 25px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+        .hidden { display: none !important; }
+
+        .btn { padding: 10px 20px; background: #1B365D; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn:hover { background: #0F2027; transform: translateY(-1px); }
+        .btn-success { background: #16a34a; }
+        .btn-success:hover { background: #15803d; }
+        .btn-danger { background: #dc2626; }
+        .btn-danger:hover { background: #b91c1c; }
+        .btn-print { background: #ea580c; font-size: 14px; }
+        .btn-print:hover { background: #c2410c; }
+
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #1B365D; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+
+        .login-box { max-width: 400px; margin: 40px auto; padding: 35px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .login-box img { width: 85px; height: 85px; margin-bottom: 15px; object-fit: contain; border-radius: 50%; border: 3px solid #1B365D; padding: 3px; }
+        .login-box h2 { color: #1B365D; margin-bottom: 20px; font-size: 20px; border-bottom: 2px solid #f39c12; padding-bottom: 10px; }
+
+        .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 20px; }
+        .nav-card { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 6px solid #1B365D; padding: 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); border-left-color: #f39c12; background: #ffffff; }
+        .nav-card h3 { color: #1B365D; font-size: 16px; margin-bottom: 6px; }
+        .nav-card p { font-size: 12px; color: #64748b; line-height: 1.4; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: center; font-size: 13px; }
+        th { background-color: #1B365D; color: white; font-weight: 600; }
+        tr:nth-child(even) { background-color: #f8fafc; }
+
+        .form-border { border: 4px solid #1B365D; padding: 30px; background: linear-gradient(to bottom, #ffffff, #f8fafc); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .form-header { text-align: center; background: #1B365D; color: white; padding: 18px; border-radius: 8px 8px 0 0; margin: -30px -30px 25px -30px; border-bottom: 4px solid #f39c12; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .form-header img { width: 60px; height: 60px; background: white; border-radius: 50%; padding: 2px; border: 2px solid #f39c12; object-fit: contain; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; text-align: left; }
+        .section-tag { background: #e0f2fe; color: #0369a1; padding: 8px 14px; font-weight: 700; border-left: 4px solid #0284c7; margin: 20px 0 12px 0; border-radius: 0 6px 6px 0; font-size: 13px; }
+
+        .a4-page { width: 210mm; min-height: 297mm; margin: 0 auto; background: white; padding: 15mm; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; }
+        .marksheet-border { border: 4px double #1B365D; padding: 25px; background: #fff; border-radius: 10px; }
+        .marksheet-header { text-align: center; border-bottom: 3px solid #f39c12; padding-bottom: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .marksheet-header img { width: 65px; height: 65px; object-fit: contain; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; margin-bottom: 15px; font-size: 13px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .admit-card, .id-card { border: 2px solid #1B365D; padding: 22px; border-radius: 10px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .photo-box { width: 100px; height: 120px; border: 2px dashed #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #64748b; text-align: center; border-radius: 6px; background: #f8fafc; overflow: hidden; position: relative; }
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        @media print {
+            body { background: white; }
+            .no-print, .header, .btn, input[type="file"] { display: none !important; }
+            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: none !important; }
+            .a4-page { width: 100% !important; min-height: auto !important; margin: 0 !important; padding: 10mm !important; box-shadow: none !important; border: none !important; }
+            .print-area { display: block !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            th { background-color: #1B365D !important; -webkit-print-color-adjust: exact; color-adjust: exact; }
+            .form-header, .marksheet-header { -webkit-print-color-adjust: exact; color-adjust: exact; }
+            @page { size: A4; margin: 10mm; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header no-print">
+        <img src="input_file_1.png" alt="School Logo" onerror="this.style.display='none'">
+        <div class="header-text">
+            <h1>THE BRILLIANT KID'S ACADEMY</h1>
+            <p>In Front of Block Office, Bhind Road, Mehgaon | Professional School Management ERP</p>
+        </div>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginSection" class="container">
+        <div class="login-box">
+            <img src="input_file_1.png" alt="Logo" onerror="this.style.display='none'">
+            <h2>Portal Secure Login</h2>
+            <div class="input-group">
+                <label>User ID / Role</label>
+                <select id="userId" onchange="toggleLoginInputs()">
+                    <option value="admin">Administrator (Management)</option>
+                    <option value="teacher">Registered Teacher</option>
+                    <option value="parent">👨‍👩‍👦 Parents / Student Portal</option>
+                </select>
+            </div>
+            
+            <div class="input-group" id="teacherSelectGroup" style="display: none;">
+                <label>Select Teacher Name</label>
+                <select id="loginTeacherName"></select>
+            </div>
+
+            <div class="input-group" id="passwordGroup">
+                <label id="passwordLabel">Password (Default: TBKA1234)</label>
+                <input type="password" id="password" value="TBKA1234" placeholder="Enter Secure Password">
+            </div>
+
+            <div class="input-group hidden" id="parentPhoneGroup">
+                <label>Registered Mobile Number (10 Digit):*</label>
+                <input type="text" id="parentMobile" placeholder="e.g. 9876543210">
+            </div>
+
+            <button class="btn" style="width: 100%; padding: 12px; font-size: 15px;" type="button" onclick="login()">Secure Login Karein</button>
+            <p id="loginError" style="color:#dc2626; font-size:12px; margin-top:12px; font-weight:600;"></p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="homeSection" class="container hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
+            <div>
+                <h2 style="color: #1B365D; font-size: 22px;">School ERP Dashboard</h2>
+                <p id="userRoleBadge" style="font-size: 12px; color: #16a34a; font-weight: bold; margin-top: 3px;"></p>
+            </div>
+            <button class="btn btn-danger no-print" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="nav-grid">
+            <div class="nav-card admin-only" onclick="showSection('admissionFormSection')">
+                <h3>1. New Student Admission Form</h3>
+                <p>Naya student add karein, photo upload aur auto-save</p>
+            </div>
+            <div class="nav-card admin-only" onclick="showSection('studentMasterSection')">
+                <h3>2. Student Directory</h3>
+                <p>Sabhi saved bacho ki list, photo aur records</p>
+            </div>
+            <div class="nav-card admin-only" onclick="showSection('teacherManagementSection')">
+                <h3>3. Teacher Registration & Details</h3>
+                <p>Naye teachers add karein (Phone, Address, Subject, Password)</p>
+            </div>
+            <div class="nav-card teacher-allowed" onclick="showSection('marksEntrySection')">
+                <h3>4. Teacher Marks Entry Portal</h3>
+                <p>Saved bacho ke subject-wise marks enter & save karein</p>
+            </div>
+            <div class="nav-card teacher-allowed" onclick="showSection('marksheetSection')">
+                <h3>5. Colourful Report Card / Marksheet</h3>
+                <p>Select karein aur A4 size auto-generated Marksheet dekhein</p>
+            </div>
+            <div class="nav-card admin-only" onclick="showSection('admitCardSection')">
+                <h3>6. Examination Admit Card</h3>
+                <p>Auto-filled Exam Hall Ticket & Date Schedule print karein</p>
+            </div>
+            <div class="nav-card admin-only" onclick="showSection('feeSection')">
+                <h3>7. Fee Receipt & Dues</h3>
+                <p>Fee collection status dekhein aur official receipt print</p>
+            </div>
+            <div class="nav-card teacher-allowed" onclick="showSection('attendanceSection')">
+                <h3>8. Student Attendance Tracker</h3>
+                <p>Daily Present/Absent (P/A) status update karein</p>
+            </div>
+            <div class="nav-card teacher-allowed" onclick="showSection('teacherAttendanceSection')">
+                <h3>9. Teacher Self Attendance</h3>
+                <p>Teachers apni daily attendance mark karein</p>
+            </div>
+            <div class="nav-card admin-only" onclick="showSection('idCardSection')">
+                <h3>10. Student ID Card</h3>
+                <p>Auto-generated pocket ID card print karein</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEACHER MANAGEMENT MODULE -->
+    <div id="teacherManagementSection" class="container hidden">
+        <button class="btn no-print" style="margin-bottom: 15px;" onclick="showSection('homeSection')">← Back to Home</button>
+        <h2>Teacher Registration & Management</h2>
+        <form id="teacherRegForm" onsubmit="saveTeacherData(event)" style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 15px; margin-bottom: 20px;">
+            <div class="form-grid">
+                <div class="input-group"><label>Teacher Full Name:*</label><input type="text" id="tRegName" required></div>
+                <div class="input-group"><label>Phone Number:*</label><input type="text" id="tRegPhone" required></div>
+                <div class="input-group"><label>Address:*</label><input type="text" id="tRegAddress" required></div>
+                <div class="input-group"><label>Assigned Subject:*</label><input type="text" id="tRegSubject" required></div>
+                <div class="input-group"><label>Password:*</label><input type="text" id="tRegPass" value="TBKA1234" required></div>
+                <div class="input-group" style="display: flex; align-items: flex-end;"><button type="submit" class="btn btn-success" style="width: 100%;">➕ Register Teacher</button></div>
+            </div>
+        </form>
+        <table>
+            <thead><tr><th>Name</th><th>Phone</th><th>Address</th><th>Subject</th><th>Password</th><th>Action</th></tr></thead>
+            <tbody id="teacherTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ADMISSION FORM -->
+    <div id="admissionFormSection" class="container hidden">
+        <div class="no-print" style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+            <button class="btn" onclick="showSection('homeSection')">← Back to Home</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ Blank Form Print Karein</button>
+        </div>
+
+        <form id="studentRegistrationForm" onsubmit="saveStudentData(event)">
+            <div class="form-border print-area">
+                <div class="form-header">
+                    <img src="input_file_1.png" alt="Logo" onerror="this.style.display='none'">
+                    <div>
+                        <h2 style="color: #ffffff; font-size: 20px;">THE BRILLIANT KID'S ACADEMY</h2>
+                        <p style="color: #f39c12; font-size: 12px; font-weight: bold; margin-top: 2px;">In Front of Block Office, Bhind Road, Mehgaon | OFFICIAL ADMISSION FORM</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 15px;">
+                    <div style="flex-grow: 1; margin-right: 20px;">
+                        <div class="form-grid">
+                            <div class="input-group"><label>Scholar / Admission No:*</label><input type="text" id="formScholar" required></div>
+                            <div class="input-group">
+                                <label>Academic Session Year:*</label>
+                                <input type="text" id="formSession" value="2025-26" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Class Seeking Admission For:*</label>
+                                <select id="formClass" required>
+                                    <option value="">-- Select Class --</option>
+                                    <option>Play Group</option><option>Nursery</option><option>LKG</option><option>UKG</option>
+                                    <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option>
+                                    <option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option>
+                                </select>
+                            </div>
+                            <div class="input-group"><label>Roll Number:*</label><input type="text" id="formRoll" required></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div class="photo-box" id="formPhotoPreviewBox"><span>UPLOAD<br>PASSPORT<br>PHOTO</span></div>
+                        <input type="file" id="formPhotoInput" accept="image/*" onchange="previewStudentPhoto(event)" style="margin-top: 5px; width: 120px; font-size: 10px;" class="no-print">
+                    </div>
+                </div>
+
+                <div class="section-tag">1. STUDENT PERSONAL DETAILS</div>
+                <div class="form-grid">
+                    <div class="input-group"><label>Student Full Name:*</label><input type="text" id="formName" required></div>
+                    <div class="input-group"><label>Date of Birth:</label><input type="date" id="formDob"></div>
+                    <div class="input-group"><label>Gender:</label><select id="formGender"><option>Male</option><option>Female</option></select></div>
+                    <div class="input-group"><label>Contact Mobile:*</label><input type="text" id="formContact" required></div>
+                </div>
+
+                <div class="section-tag">2. PARENT & FEE DETAILS</div>
+                <div class="form-grid">
+                    <div class="input-group"><label>Father's Name:*</label><input type="text" id="formFather" required></div>
+                    <div class="input-group"><label>Mother's Name:</label><input type="text" id="formMother"></div>
+                    <div class="input-group"><label>Total Annual Fee (₹):</label><input type="number" id="formFee" value="15000"></div>
+                    <div class="input-group"><label>Full Address:</label><input type="text" id="formAddress" placeholder="Mehgaon, Bhind"></div>
+                </div>
+
+                <div class="no-print" style="margin-top: 25px; text-align: center;">
+                    <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 12px 35px;">💾 SUBMIT & SAVE STUDENT DATA</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- STUDENT DIRECTORY -->
+    <div id="studentMasterSection" class="container hidden">
+        <button class="btn no-print" style="margin-bottom: 15px;" onclick="showSection('homeSection')">← Back to Home</button>
+        <h2>Student Directory</h2>
+        <table>
+            <thead><tr><th>Photo</th><th>Scholar No</th><th>Student Name</th><th>Father Name</th><th>Class</th><th>Roll No</th><th>Contact</th></tr></thead>
+            <tbody id="studentTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- MARKS ENTRY PORTAL -->
+    <div id="marksEntrySection" class="container hidden">
+        <button class="btn no-print" style="margin-bottom: 15px;" onclick="showSection('homeSection')">← Back to Home</button>
+        <h2>Teacher Marks Entry Portal (Class-wise Subjects)</h2>
+        <p style="font-size:13px; color:#555; margin-bottom:10px;">Select student to update marks (Grades for Computer, GK, Drawing):</p>
+        
+        <div style="max-width: 300px; margin-bottom: 15px;">
+            <select id="marksStudentSelect" onchange="loadStudentMarksIntoForm()" class="input-group input"></select>
+        </div>
+
+        <div id="marksTableContainer"></div>
+        <br>
+        <button class="btn btn-success" onclick="saveStudentMarks()">💾 Save Marks</button>
+    </div>
+
+    <!-- MARKSHEET (A4 Optimized) -->
+    <div id="marksheetSection" class="container hidden">
+        <div class="no-print" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: #e2e8f0; padding: 10px; border-radius: 6px;">
+            <button class="btn" onclick="showSection('homeSection')">← Back to Home</button>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label>Select Student: </label>
+                <select id="marksheetSelect" onchange="renderMarksheet()" style="padding: 6px; border-radius: 4px;"></select>
+                <label>Session Year: </label>
+                <input type="text" id="msYearInput" value="2025-26" oninput="renderMarksheet()" style="width: 90px; padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1;">
+            </div>
+            <button class="btn btn-print" onclick="window.print()">🖨️ A4 Marksheet Print PDF</button>
+        </div>
+
+        <div class="a4-page print-area">
+            <div class="marksheet-border">
+                <div class="marksheet-header">
+                    <img src="input_file_1.png" alt="Logo" onerror="this.style.display='none'">
+                    <div style="text-align: center; flex-grow: 1;">
+                        <h2 style="color: #1B365D; font-size: 22px;">THE BRILLIANT KID'S ACADEMY</h2>
+                        <p style="font-size: 12px; color: #555;">In Front of Block Office, Bhind Road, Mehgaon | Annual Examination Marksheet (<span id="ms_display_year">2025-26</span>)</p>
+                    </div>
+                    <div style="width: 65px;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                    <div class="info-grid" style="flex-grow: 1; margin-right: 15px; margin-bottom: 0;">
+                        <div><strong>Scholar No:</strong> <span id="ms_scholar"></span></div>
+                        <div><strong>Class:</strong> <span id="ms_class"></span></div>
+                        <div><strong>Student Name:</strong> <span id="ms_name"></span></div>
+                        <div><strong>Roll No:</strong> <span id="ms_roll"></span></div>
+                        <div><strong>Father Name:</strong> <span id="ms_father"></span></div>
+                        <div><strong>Academic Session:</strong> <span id="ms_session_text">2025-26</span></div>
+                    </div>
+                    <div class="photo-box" id="ms_photo_box">PHOTO</div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr style="background:#f39c12; color:white;">
+                            <th>Subject Name</th><th>Max Marks / Type</th><th>Marks Obtained / Grade</th><th>Performance Grade</th><th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ms_marks_body"></tbody>
+                </table>
+
+                <div style="margin-top: 50px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold;">
+                    <div>Class Teacher Signature</div>
+                    <div>Principal Signature & Stamp</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIT CARD (A4 Optimized with Date Editor) -->
+    <div id="admitCardSection" class="container hidden">
+        <div class="no-print" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: #e2e8f0; padding: 10px; border-radius: 6px;">
+            <button class="btn" onclick="showSection('homeSection')">← Back to Home</button>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label>Select Student: </label>
+                <select id="admitSelect" onchange="renderAdmitCard()" style="padding: 6px; border-radius: 4px;"></select>
+                <label>Exam Session: </label>
+                <input type="text" id="acYearInput" value="2025-26" oninput="renderAdmitCard()" style="width: 90px; padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1;">
+            </div>
+            <button class="btn btn-print" onclick="window.print()">🖨️ A4 Admit Card Print</button>
+        </div>
+
+        <div class="a4-page print-area">
+            <div class="admit-card" style="border: 3px double #1B365D; padding: 25px;">
+                <div style="text-align: center; border-bottom: 2px solid #1B365D; padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <img src="input_file_1.png" alt="Logo" style="width: 55px; height: 55px; object-fit: contain;" onerror="this.style.display='none'">
+                    <div>
+                        <h2 style="color: #1B365D; font-size: 20px;">THE BRILLIANT KID'S ACADEMY</h2>
+                        <p style="font-size: 12px; font-weight: bold; color: #333;">EXAMINATION ADMIT CARD (<span id="ac_display_year">2025-26</span>)</p>
+                    </div>
+                    <div style="width: 55px;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                    <div style="font-size: 13px; line-height: 1.9;">
+                        <p><strong>Student Name:</strong> <span id="ac_name"></span></p>
+                        <p><strong>Scholar No:</strong> <span id="ac_scholar"></span> | <strong>Roll No:</strong> <span id="ac_roll"></span></p>
+                        <p><strong>Class:</strong> <span id="ac_class"></span></p>
+                        <p><strong>Father Name:</strong> <span id="ac_father"></span></p>
+                    </div>
+                    <div class="photo-box" id="ac_photo_box">PHOTO</div>
+                </div>
+
+                <p class="no-print" style="font-size: 12px; color: #64748b; margin-bottom: 5px;">Aap niche table mein exam ki dates ko click karke change kar sakte hain:</p>
+                <table id="ac_table">
+                    <thead>
+                        <tr><th>Exam Date</th><th>Subject Name</th><th>Timing</th><th>Invigilator Sign</th></tr>
+                    </thead>
+                    <tbody id="ac_table_body"></tbody>
+                </table>
+
+                <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold;">
+                    <div>Parent Signature</div>
+                    <div>Principal Signature & Stamp</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEE RECEIPT -->
+    <div id="feeSection" class="container hidden">
+        <div class="no-print" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <button class="btn" onclick="showSection('homeSection')">← Back to Home</button>
+            <div>
+                <label>Select Student: </label>
+                <select id="feeSelect" onchange="renderFeeReceipt()" style="padding: 6px; border-radius: 4px;"></select>
+            </div>
+            <button class="btn btn-print" onclick="window.print()">🖨️ Fee Receipt Print</button>
+        </div>
+
+        <div class="print-area" style="border: 2px solid #16a34a; padding: 25px; border-radius: 10px; background: #fff; max-width: 800px; margin: 0 auto;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">
+                <img src="input_file_1.png" alt="Logo" style="width: 55px; height: 55px; object-fit: contain;" onerror="this.style.display='none'">
+                <div style="text-align: center;">
+                    <h2 style="color: #16a34a; font-size: 20px;">OFFICIAL FEE RECEIPT</h2>
+                    <p style="font-size: 12px; color: #555;">The Brilliant Kid's Academy, Mehgaon</p>
+                </div>
+            </div>
+            <hr style="border: 1px solid #e2e8f0; margin-bottom: 15px;">
+            
+            <div style="font-size: 13px; margin-bottom: 15px;">
+                <p><strong>Receipt No:</strong> REC-2026-001 | <strong>Date:</strong> 22-09-2026</p>
+                <p><strong>Student Name:</strong> <span id="fr_name"></span> (<span id="fr_scholar"></span>)</p>
+                <p><strong>Class:</strong> <span id="fr_class"></span> | <strong>Father:</strong> <span id="fr_father"></span></p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr style="background:#16a34a; color:white;"><th>Description</th><th>Amount (₹)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Total Academic Tuition Fee</td><td>₹<span id="fr_fee"></span></td></tr>
+                    <tr><td>Total Amount Paid</td><td>₹10,000</td></tr>
+                    <tr style="font-weight:bold; color:#dc2626;"><td>Remaining Dues</td><td>₹<span id="fr_dues"></span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- STUDENT ATTENDANCE -->
+    <div id="attendanceSection" class="container hidden">
+        <button class="btn no-print" style="margin-bottom: 15px;" onclick="showSection('homeSection')">← Back to Home</button>
+        <h2>Student Attendance Tracker</h2>
+        <table>
+            <thead><tr><th>Scholar No</th><th>Student Name</th><th>Day 1</th><th>Day 2</th><th>Day 3</th><th>Day 4</th></tr></thead>
+            <tbody id="attendanceTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- TEACHER SELF ATTENDANCE -->
+    <div id="teacherAttendanceSection" class="container hidden">
+        <button class="btn no-print" style="margin-bottom: 15px;" onclick="showSection('homeSection')">← Back to Home</button>
+        <h2>Teacher Self Attendance Portal</h2>
+        <div style="max-width: 400px; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div class="input-group">
+                <label>Logged-in Teacher:</label>
+                <input type="text" id="tAttName" readonly style="background: #e2e8f0; font-weight: bold;">
+            </div>
+            <div class="input-group">
+                <label>Status:</label>
+                <select id="tAttStatus"><option>Present (P)</option><option>Half Day (HD)</option><option>On Leave (L)</option></select>
+            </div>
+            <button class="btn btn-success" onclick="markTeacherAttendance()">Mark Attendance</button>
+        </div>
+        <table>
+            <thead><tr><th>Date</th><th>Teacher Name</th><th>Status</th></tr></thead>
+            <tbody id="teacherAttLog"></tbody>
+        </table>
+    </div>
+
+    <!-- STUDENT ID CARD -->
+    <div id="idCardSection" class="container hidden">
+        <div class="no-print" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <button class="btn" onclick="showSection('homeSection')">← Back to Home</button>
+            <div>
+                <label>Select Student: </label>
+                <select id="idSelect" onchange="renderIDCard()" style="padding: 6px; border-radius: 4px;"></select>
+            </div>
+            <button class="btn btn-print" onclick="window.print()">🖨️ ID Card Print</button>
+        </div>
+
+        <div class="id-card print-area" style="max-width: 320px; margin: 0 auto; text-align: center; border: 2px solid #1B365D; border-radius: 10px;">
+            <div style="background: #1B365D; color: white; padding: 10px; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <img src="input_file_1.png" alt="Logo" style="width: 30px; height: 30px; object-fit: contain; background: white; border-radius: 50%;" onerror="this.style.display='none'">
+                <div>
+                    <h3 style="font-size: 13px;">THE BRILLIANT KID'S ACADEMY</h3>
+                    <p style="font-size: 9px; color: #cbd5e1;">Mehgaon, Bhind (M.P.)</p>
+                </div>
+            </div>
+            <div style="padding: 15px;">
+                <div class="photo-box" id="id_photo_box" style="margin: 0 auto 10px auto;">PHOTO</div>
+                <h4 style="color: #1B365D;" id="id_name"></h4>
+                <p style="font-size: 12px; color: #555;">Class: <span id="id_class"></span> | Roll: <span id="id_roll"></span></p>
+                <p style="font-size: 11px; margin-top: 5px;">Scholar No: <span id="id_scholar"></span></p>
+                <p style="font-size: 11px; color: #555;">Ph: <span id="id_contact"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PARENT / STUDENT DASHBOARD -->
+    <div id="parentDashboardSection" class="container hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;">
+            <div>
+                <h2 style="color: #1B365D; font-size: 20px;">Welcome, <span id="pDashStudentName">Student</span>'s Parent Portal</h2>
+                <p style="font-size: 12px; color: #16a34a; font-weight: bold; margin-top: 3px;">The Brilliant Kid's Academy, Mehgaon</p>
+            </div>
+            <button class="btn btn-danger no-print" onclick="logout()">Logout</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px;" class="no-print">
+            <div class="nav-card" onclick="showParentView('pMarksheetView')" style="border-left-color: #f39c12;">
+                <h3>📊 Annual Marksheet</h3>
+                <p>Result aur subject-wise grades dekhein & download karein</p>
+            </div>
+            <div class="nav-card" onclick="showParentView('pAdmitCardView')" style="border-left-color: #16a34a;">
+                <h3>🎫 Exam Admit Card</h3>
+                <p>Roll No aur Exam timing ke sath Hall Ticket download karein</p>
+            </div>
+            <div class="nav-card" onclick="showParentView('pFeeView')" style="border-left-color: #0284c7;">
+                <h3>💰 Fee & Dues Status</h3>
+                <p>Total fee, paid amount aur remaining dues status dekhein</p>
+            </div>
+            <div class="nav-card" onclick="showParentView('pIdCardView')" style="border-left-color: #dc2626;">
+                <h3>🆔 Student ID Card</h3>
+                <p>Digital school ID card print / download karein</p>
+            </div>
+        </div>
+
+        <!-- PARENT VIEW CONTAINER -->
+        <div id="parentViewContainer">
+            <div id="pMarksheetView" class="parent-sub-view">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;" class="no-print">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Print Marksheet PDF</button>
+                </div>
+                <div class="a4-page print-area">
+                    <div class="marksheet-border">
+                        <div class="marksheet-header">
+                            <img src="input_file_1.png" alt="Logo" onerror="this.style.display='none'">
+                            <div style="text-align: center; flex-grow: 1;">
+                                <h2 style="color: #1B365D; font-size: 22px;">THE BRILLIANT KID'S ACADEMY</h2>
+                                <p style="font-size: 12px; color: #555;">In Front of Block Office, Bhind Road, Mehgaon | Annual Examination Marksheet (2025-26)</p>
+                            </div>
+                            <div style="width: 65px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <div class="info-grid" style="flex-grow: 1; margin-right: 15px; margin-bottom: 0;">
+                                <div><strong>Scholar No:</strong> <span id="p_ms_scholar"></span></div>
+                                <div><strong>Class:</strong> <span id="p_ms_class"></span></div>
+                                <div><strong>Student Name:</strong> <span id="p_ms_name"></span></div>
+                                <div><strong>Roll No:</strong> <span id="p_ms_roll"></span></div>
+                                <div><strong>Father Name:</strong> <span id="p_ms_father"></span></div>
+                                <div><strong>Academic Year:</strong> 2025-26</div>
+                            </div>
+                            <div class="photo-box" id="p_ms_photo_box">PHOTO</div>
+                        </div>
+                        <table>
+                            <thead><tr style="background:#f39c12; color:white;"><th>Subject Name</th><th>Max Marks / Type</th><th>Marks / Grade</th><th>Performance Grade</th><th>Status</th></tr></thead>
+                            <tbody id="p_ms_marks_body"></tbody>
+                        </table>
+                        <div style="margin-top: 50px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold;">
+                            <div>Class Teacher Signature</div>
+                            <div>Principal Signature & Stamp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pAdmitCardView" class="parent-sub-view hidden">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;" class="no-print">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Print Admit Card</button>
+                </div>
+                <div class="a4-page print-area">
+                    <div class="admit-card" style="border: 3px double #1B365D; padding: 25px;">
+                        <div style="text-align: center; border-bottom: 2px solid #1B365D; padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                            <img src="input_file_1.png" alt="Logo" style="width: 55px; height: 55px; object-fit: contain;" onerror="this.style.display='none'">
+                            <div>
+                                <h2 style="color: #1B365D; font-size: 20px;">THE BRILLIANT KID'S ACADEMY</h2>
+                                <p style="font-size: 12px; font-weight: bold; color: #333;">EXAMINATION ADMIT CARD (2025-26)</p>
+                            </div>
+                            <div style="width: 55px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                            <div style="font-size: 13px; line-height: 1.9;">
+                                <p><strong>Student Name:</strong> <span id="p_ac_name"></span></p>
+                                <p><strong>Scholar No:</strong> <span id="p_ac_scholar"></span> | <strong>Roll No:</strong> <span id="p_ac_roll"></span></p>
+                                <p><strong>Class:</strong> <span id="p_ac_class"></span></p>
+                                <p><strong>Father Name:</strong> <span id="p_ac_father"></span></p>
+                            </div>
+                            <div class="photo-box" id="p_ac_photo_box">PHOTO</div>
+                        </div>
+                        <table>
+                            <thead><tr><th>Exam Date</th><th>Subject Name</th><th>Timing</th><th>Invigilator Sign</th></tr></thead>
+                            <tbody id="p_ac_table_body"></tbody>
+                        </table>
+                        <div style="margin-top: 60px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold;">
+                            <div>Parent Signature</div>
+                            <div>Principal Signature & Stamp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pFeeView" class="parent-sub-view hidden">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;" class="no-print">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Print Fee Status</button>
+                </div>
+                <div class="print-area" style="border: 2px solid #16a34a; padding: 25px; border-radius: 10px; background: #fff; max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">
+                        <img src="input_file_1.png" alt="Logo" style="width: 55px; height: 55px; object-fit: contain;" onerror="this.style.display='none'">
+                        <div style="text-align: center;">
+                            <h2 style="color: #16a34a; font-size: 20px;">FEE & DUES STATUS</h2>
+                            <p style="font-size: 12px; color: #555;">The Brilliant Kid's Academy, Mehgaon</p>
+                        </div>
+                    </div>
+                    <hr style="border: 1px solid #e2e8f0; margin-bottom: 15px;">
+                    <div style="font-size: 13px; margin-bottom: 15px;">
+                        <p><strong>Student Name:</strong> <span id="p_fr_name"></span> (<span id="p_fr_scholar"></span>)</p>
+                        <p><strong>Class:</strong> <span id="p_fr_class"></span> | <strong>Father:</strong> <span id="p_fr_father"></span></p>
+                    </div>
+                    <table>
+                        <thead><tr style="background:#16a34a; color:white;"><th>Description</th><th>Amount (₹)</th></tr></thead>
+                        <tbody>
+                            <tr><td>Total Academic Tuition Fee</td><td>₹<span id="p_fr_fee"></span></td></tr>
+                            <tr><td>Total Amount Paid</td><td>₹10,000</td></tr>
+                            <tr style="font-weight:bold; color:#dc2626;"><td>Remaining Dues</td><td>₹<span id="p_fr_dues"></span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pIdCardView" class="parent-sub-view hidden">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;" class="no-print">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Print ID Card</button>
+                </div>
+                <div class="id-card print-area" style="max-width: 320px; margin: 0 auto; text-align: center; border: 2px solid #1B365D; border-radius: 10px;">
+                    <div style="background: #1B365D; color: white; padding: 10px; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <img src="input_file_1.png" alt="Logo" style="width: 30px; height: 30px; object-fit: contain; background: white; border-radius: 50%;" onerror="this.style.display='none'">
+                        <div>
+                            <h3 style="font-size: 13px;">THE BRILLIANT KID'S ACADEMY</h3>
+                            <p style="font-size: 9px; color: #cbd5e1;">Mehgaon, Bhind (M.P.)</p>
+                        </div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <div class="photo-box" id="p_id_photo_box" style="margin: 0 auto 10px auto;">PHOTO</div>
+                        <h4 style="color: #1B365D;" id="p_id_name"></h4>
+                        <p style="font-size: 12px; color: #555;">Class: <span id="p_id_class"></span> | Roll: <span id="p_id_roll"></span></p>
+                        <p style="font-size: 11px; margin-top: 5px;">Scholar No: <span id="p_id_scholar"></span></p>
+                        <p style="font-size: 11px; color: #555;">Ph: <span id="p_id_contact"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const DEFAULT_PASSWORD = "TBKA1234";
+
+        let students = JSON.parse(localStorage.getItem('tbka_students')) || [
+            { scholar: "101", session: "2025-26", class: "Class 5", roll: "01", name: "Aarav Sharma", dob: "2015-05-12", gender: "Male", contact: "9827012345", father: "Mukesh Sharma", mother: "Sunita Sharma", fee: 15000, photo: "" },
+            { scholar: "102", session: "2025-26", class: "Class 5", roll: "02", name: "Priya Verma", dob: "2015-08-20", gender: "Female", contact: "9425054321", father: "Ramesh Verma", mother: "Geeta Verma", fee: 15000, photo: "" }
+        ];
+
+        let teachers = JSON.parse(localStorage.getItem('tbka_teachers')) || [
+            { name: "Rajesh Sir", phone: "9876543210", address: "Mehgaon", subject: "Mathematics", pass: "TBKA1234" }
+        ];
+
+        let marksData = JSON.parse(localStorage.getItem('tbka_marks')) || {};
+        let attendanceData = JSON.parse(localStorage.getItem('tbka_att')) || {};
+        let teacherAttLog = JSON.parse(localStorage.getItem('tbka_t_att')) || [];
+
+        let currentLoggedUser = null;
+        let currentLoggedRole = null;
+
+        window.onload = function() {
+            try {
+                populateTeacherDropdowns();
+                renderStudentTable();
+                renderTeacherTable();
+                populateSelectDropdowns();
+                toggleLoginInputs();
+            } catch (e) {
+                console.error("Init Error:", e);
+            }
+        };
+
+        function toggleLoginInputs() {
+            let roleElem = document.getElementById('userId');
+            if (!roleElem) return;
+            let role = roleElem.value;
+            let passGroup = document.getElementById('passwordGroup');
+            let tGroup = document.getElementById('teacherSelectGroup');
+            let pGroup = document.getElementById('parentPhoneGroup');
+
+            if (role === 'admin') {
+                if(passGroup) passGroup.style.display = 'block';
+                if(tGroup) tGroup.style.display = 'none';
+                if(pGroup) pGroup.classList.add('hidden');
+            } else if (role === 'teacher') {
+                if(passGroup) passGroup.style.display = 'block';
+                if(tGroup) tGroup.style.display = 'block';
+                if(pGroup) pGroup.classList.add('hidden');
+            } else if (role === 'parent') {
+                if(passGroup) passGroup.style.display = 'none';
+                if(tGroup) tGroup.style.display = 'none';
+                if(pGroup) pGroup.classList.remove('hidden');
+            }
+        }
+
+        function populateTeacherDropdowns() {
+            let select = document.getElementById('loginTeacherName');
+            if(!select) return;
+            select.innerHTML = '';
+            teachers.forEach(t => {
+                let opt = document.createElement('option');
+                opt.value = t.name;
+                opt.textContent = `${t.name} (${t.subject})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function login() {
+            let role = document.getElementById('userId').value;
+            let err = document.getElementById('loginError');
+            err.textContent = '';
+
+            if (role === 'admin') {
+                let pass = document.getElementById('password').value;
+                if (pass === DEFAULT_PASSWORD) {
+                    currentLoggedRole = 'admin';
+                    currentLoggedUser = 'Administrator';
+                    openDashboard();
+                } else {
+                    err.textContent = "Galat Password! (Default: TBKA1234)";
+                }
+            } else if (role === 'teacher') {
+                let tNameElem = document.getElementById('loginTeacherName');
+                let tName = tNameElem ? tNameElem.value : '';
+                let pass = document.getElementById('password').value;
+                let teacherObj = teachers.find(t => t.name === tName);
+
+                let checkPass = teacherObj ? (teacherObj.pass || DEFAULT_PASSWORD) : DEFAULT_PASSWORD;
+
+                if (pass === checkPass || pass === DEFAULT_PASSWORD) {
+                    currentLoggedRole = 'teacher';
+                    currentLoggedUser = tName || "Teacher";
+                    openDashboard();
+                } else {
+                    err.textContent = "Galat Teacher Password! (Default: TBKA1234)";
+                }
+            } else if (role === 'parent') {
+                let phoneElem = document.getElementById('parentMobile');
+                let phone = phoneElem ? phoneElem.value.trim() : '';
+                let student = students.find(s => s.contact === phone);
+                if (student) {
+                    currentLoggedRole = 'parent';
+                    currentLoggedUser = student;
+                    openParentDashboard();
+                } else {
+                    err.textContent = "Yeh mobile number kisi registered student se match nahi hua!";
+                }
+            }
+        }
+
+        function openDashboard() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('homeSection').classList.remove('hidden');
+            document.getElementById('parentDashboardSection').classList.add('hidden');
+
+            let badge = document.getElementById('userRoleBadge');
+            if(badge) badge.textContent = `Logged in as: ${currentLoggedUser} (${currentLoggedRole.toUpperCase()})`;
+
+            if (currentLoggedRole === 'teacher') {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.teacher-allowed').forEach(el => el.classList.remove('hidden'));
+                let tAtt = document.getElementById('tAttName');
+                if(tAtt) tAtt.value = currentLoggedUser;
+            } else {
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.teacher-allowed').forEach(el => el.classList.remove('hidden'));
+            }
+        }
+
+        function openParentDashboard() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('homeSection').classList.add('hidden');
+            document.getElementById('parentDashboardSection').classList.remove('hidden');
+
+            let student = currentLoggedUser;
+            let pName = document.getElementById('pDashStudentName');
+            if(pName) pName.textContent = student.name;
+            
+            renderParentMarksheet(student);
+            renderParentAdmitCard(student);
+            renderParentFee(student);
+            renderParentIDCard(student);
+        }
+
+        function logout() {
+            currentLoggedUser = null;
+            currentLoggedRole = null;
+            let passInput = document.getElementById('password');
+            if(passInput) passInput.value = DEFAULT_PASSWORD;
+            
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            let loginSec = document.getElementById('loginSection');
+            if(loginSec) loginSec.classList.remove('hidden');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            let target = document.getElementById(sectionId);
+            if(target) target.classList.remove('hidden');
+            let loginSec = document.getElementById('loginSection');
+            if(loginSec) loginSec.classList.add('hidden');
+        }
+
+        function showParentView(viewId) {
+            document.querySelectorAll('.parent-sub-view').forEach(v => v.classList.add('hidden'));
+            let vElem = document.getElementById(viewId);
+            if(vElem) vElem.classList.remove('hidden');
+        }
+
+        let tempStudentPhoto = "";
+        function previewStudentPhoto(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    tempStudentPhoto = e.target.result;
+                    let pBox = document.getElementById('formPhotoPreviewBox');
+                    if(pBox) pBox.innerHTML = `<img src="${tempStudentPhoto}">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveStudentData(event) {
+            event.preventDefault();
+            let newStudent = {
+                scholar: document.getElementById('formScholar').value,
+                session: document.getElementById('formSession').value,
+                class: document.getElementById('formClass').value,
+                roll: document.getElementById('formRoll').value,
+                name: document.getElementById('formName').value,
+                dob: document.getElementById('formDob').value,
+                gender: document.getElementById('formGender').value,
+                contact: document.getElementById('formContact').value,
+                father: document.getElementById('formFather').value,
+                mother: document.getElementById('formMother').value,
+                fee: document.getElementById('formFee').value,
+                photo: tempStudentPhoto
+            };
+
+            students.push(newStudent);
+            localStorage.setItem('tbka_students', JSON.stringify(students));
+            alert('Student successfully registered and saved!');
+            document.getElementById('studentRegistrationForm').reset();
+            tempStudentPhoto = "";
+            let pBox = document.getElementById('formPhotoPreviewBox');
+            if(pBox) pBox.innerHTML = `<span>UPLOAD<br>PASSPORT<br>PHOTO</span>`;
+            renderStudentTable();
+            populateSelectDropdowns();
+            showSection('homeSection');
+        }
+
+        function renderStudentTable() {
+            let tbody = document.getElementById('studentTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            students.forEach(s => {
+                let tr = document.createElement('tr');
+                let imgTag = s.photo ? `<img src="${s.photo}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">` : `No Photo`;
+                tr.innerHTML = `<td>${imgTag}</td><td>${s.scholar}</td><td>${s.name}</td><td>${s.father}</td><td>${s.class}</td><td>${s.roll}</td><td>${s.contact}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveTeacherData(event) {
+            event.preventDefault();
+            let newT = {
+                name: document.getElementById('tRegName').value,
+                phone: document.getElementById('tRegPhone').value,
+                address: document.getElementById('tRegAddress').value,
+                subject: document.getElementById('tRegSubject').value,
+                pass: document.getElementById('tRegPass').value || DEFAULT_PASSWORD
+            };
+            teachers.push(newT);
+            localStorage.setItem('tbka_teachers', JSON.stringify(teachers));
+            alert('Teacher registered successfully!');
+            document.getElementById('teacherRegForm').reset();
+            let tPass = document.getElementById('tRegPass');
+            if(tPass) tPass.value = DEFAULT_PASSWORD;
+            renderTeacherTable();
+            populateTeacherDropdowns();
+        }
+
+        function renderTeacherTable() {
+            let tbody = document.getElementById('teacherTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            teachers.forEach((t, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td>${t.name}</td><td>${t.phone}</td><td>${t.address}</td><td>${t.subject}</td><td>${t.pass || DEFAULT_PASSWORD}</td><td><button class="btn btn-danger" style="padding:4px 8px; font-size:11px;" onclick="deleteTeacher(${idx})">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteTeacher(idx) {
+            teachers.splice(idx, 1);
+            localStorage.setItem('tbka_teachers', JSON.stringify(teachers));
+            renderTeacherTable();
+            populateTeacherDropdowns();
+        }
+
+        function populateSelectDropdowns() {
+            let selects = ['marksStudentSelect', 'marksheetSelect', 'admitSelect', 'feeSelect', 'idSelect'];
+            selects.forEach(id => {
+                let sel = document.getElementById(id);
+                if(sel) {
+                    sel.innerHTML = '';
+                    students.forEach(s => {
+                        let opt = document.createElement('option');
+                        opt.value = s.scholar;
+                        opt.textContent = `${s.name} (Scholar: ${s.scholar}, Class: ${s.class})`;
+                        sel.appendChild(opt);
+                    });
+                }
+            });
+            if(students.length > 0) {
+                loadStudentMarksIntoForm();
+                renderMarksheet();
+                renderAdmitCard();
+                renderFeeReceipt();
+                renderIDCard();
+                renderAttendanceTracker();
+            }
+        }
+
+        function getSubjectsForClass(className) {
+            if (['Play Group', 'Nursery', 'LKG', 'UKG'].includes(className)) {
+                return ['English Oral', 'English Written', 'Hindi Oral', 'Hindi Written', 'Maths Oral', 'Maths Written', 'Drawing & Craft', 'Rhymes / Poem'];
+            } else {
+                return ['Hindi', 'English', 'Mathematics', 'Science', 'Social Science', 'Sanskrit ', 'Computer', 'General Knowledge'];
+            }
+        }
+
+        function loadStudentMarksIntoForm() {
+            let selElem = document.getElementById('marksStudentSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            if(!student) return;
+
+            let subs = getSubjectsForClass(student.class);
+            let container = document.getElementById('marksTableContainer');
+            if(!container) return;
+            
+            if(!marksData[scholar]) marksData[scholar] = {};
+
+            let html = `<table><thead><tr><th>Subject Name</th><th>Max Marks</th><th>Marks Obtained</th><th>Grade / Remarks</th></tr></thead><tbody>`;
+            subs.forEach(sub => {
+                let mObj = marksData[scholar][sub] || { max: 100, obt: '', grade: '' };
+                html += `<tr>
+                    <td><strong>${sub}</strong></td>
+                    <td><input type="number" value="${mObj.max}" id="max_${sub}" style="width:80px; text-align:center;"></td>
+                    <td><input type="number" value="${mObj.obt}" id="obt_${sub}" style="width:80px; text-align:center;"></td>
+                    <td><input type="text" value="${mObj.grade}" id="grade_${sub}" style="width:100px; text-align:center;" placeholder="A/B/C"></td>
+                </tr>`;
+            });
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        function saveStudentMarks() {
+            let selElem = document.getElementById('marksStudentSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            if(!student) return;
+
+            let subs = getSubjectsForClass(student.class);
+            if(!marksData[scholar]) marksData[scholar] = {};
+
+            subs.forEach(sub => {
+                let maxElem = document.getElementById(`max_${sub}`);
+                let obtElem = document.getElementById(`obt_${sub}`);
+                let gradeElem = document.getElementById(`grade_${sub}`);
+                let max = maxElem ? maxElem.value : 100;
+                let obt = obtElem ? obtElem.value : '';
+                let grade = gradeElem ? gradeElem.value : '';
+                marksData[scholar][sub] = { max, obt, grade };
+            });
+
+            localStorage.setItem('tbka_marks', JSON.stringify(marksData));
+            alert('Marks saved successfully!');
+        }
+
+        function renderMarksheet() {
+            let selElem = document.getElementById('marksheetSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            let yearElem = document.getElementById('msYearInput');
+            let year = yearElem ? yearElem.value : "2025-26";
+            if(!student) return;
+
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('ms_scholar', student.scholar);
+            setTxt('ms_class', student.class);
+            setTxt('ms_name', student.name);
+            setTxt('ms_roll', student.roll);
+            setTxt('ms_father', student.father);
+            setTxt('ms_session_text', year);
+            setTxt('ms_display_year', year);
+
+            let pBox = document.getElementById('ms_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+
+            let tbody = document.getElementById('ms_marks_body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            let sMarks = marksData[scholar] || {};
+            let subs = getSubjectsForClass(student.class);
+
+            subs.forEach(sub => {
+                let data = sMarks[sub] || { max: 100, obt: '0', grade: 'A' };
+                let status = 'PASS';
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td><strong>${sub}</strong></td><td>${data.max}</td><td>${data.obt}</td><td>${data.grade || 'A'}</td><td style="color:#16a34a; font-weight:bold;">${status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderAdmitCard() {
+            let selElem = document.getElementById('admitSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            let yearElem = document.getElementById('acYearInput');
+            let year = yearElem ? yearElem.value : "2025-26";
+            if(!student) return;
+
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('ac_name', student.name);
+            setTxt('ac_scholar', student.scholar);
+            setTxt('ac_roll', student.roll);
+            setTxt('ac_class', student.class);
+            setTxt('ac_father', student.father);
+            setTxt('ac_display_year', year);
+
+            let pBox = document.getElementById('ac_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+
+            let subs = getSubjectsForClass(student.class);
+            let tbody = document.getElementById('ac_table_body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            subs.forEach((sub, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" value="10-03-2026" style="border:none; background:transparent; text-align:center; width:100px;"></td>
+                    <td><strong>${sub}</strong></td>
+                    <td>09:00 AM - 12:00 PM</td>
+                    <td>________________</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderFeeReceipt() {
+            let selElem = document.getElementById('feeSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            if(!student) return;
+
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('fr_name', student.name);
+            setTxt('fr_scholar', student.scholar);
+            setTxt('fr_class', student.class);
+            setTxt('fr_father', student.father);
+            setTxt('fr_fee', student.fee);
+            
+            let dues = Number(student.fee) - 10000;
+            setTxt('fr_dues', dues > 0 ? dues : 0);
+        }
+
+        function renderIDCard() {
+            let selElem = document.getElementById('idSelect');
+            if(!selElem) return;
+            let scholar = selElem.value;
+            let student = students.find(s => s.scholar === scholar);
+            if(!student) return;
+
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('id_name', student.name);
+            setTxt('id_class', student.class);
+            setTxt('id_roll', student.roll);
+            setTxt('id_scholar', student.scholar);
+            setTxt('id_contact', student.contact);
+
+            let pBox = document.getElementById('id_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+        }
+
+        function renderAttendanceTracker() {
+            let tbody = document.getElementById('attendanceTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            students.forEach(s => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.scholar}</td>
+                    <td>${s.name}</td>
+                    <td><select style="padding:4px;"><option>Present</option><option>Absent</option></select></td>
+                    <td><select style="padding:4px;"><option>Present</option><option>Absent</option></select></td>
+                    <td><select style="padding:4px;"><option>Present</option><option>Absent</option></select></td>
+                    <td><select style="padding:4px;"><option>Present</option><option>Absent</option></select></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function markTeacherAttendance() {
+            let statusElem = document.getElementById('tAttStatus');
+            let status = statusElem ? statusElem.value : 'Present (P)';
+            let today = new Date().toLocaleDateString();
+            teacherAttLog.push({ date: today, name: currentLoggedUser, status: status });
+            localStorage.setItem('tbka_t_att', JSON.stringify(teacherAttLog));
+            renderTeacherAttLog();
+            alert('Teacher attendance marked successfully!');
+        }
+
+        function renderTeacherAttLog() {
+            let tbody = document.getElementById('teacherAttLog');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            teacherAttLog.forEach(log => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td>${log.date}</td><td>${log.name}</td><td style="color:#16a34a; font-weight:bold;">${log.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderParentMarksheet(student) {
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('p_ms_scholar', student.scholar);
+            setTxt('p_ms_class', student.class);
+            setTxt('p_ms_name', student.name);
+            setTxt('p_ms_roll', student.roll);
+            setTxt('p_ms_father', student.father);
+
+            let pBox = document.getElementById('p_ms_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+
+            let tbody = document.getElementById('p_ms_marks_body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            let sMarks = marksData[student.scholar] || {};
+            let subs = getSubjectsForClass(student.class);
+
+            subs.forEach(sub => {
+                let data = sMarks[sub] || { max: 100, obt: '0', grade: 'A' };
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td><strong>${sub}</strong></td><td>${data.max}</td><td>${data.obt}</td><td>${data.grade || 'A'}</td><td style="color:#16a34a; font-weight:bold;">PASS</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderParentAdmitCard(student) {
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('p_ac_name', student.name);
+            setTxt('p_ac_scholar', student.scholar);
+            setTxt('p_ac_roll', student.roll);
+            setTxt('p_ac_class', student.class);
+            setTxt('p_ac_father', student.father);
+
+            let pBox = document.getElementById('p_ac_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+
+            let subs = getSubjectsForClass(student.class);
+            let tbody = document.getElementById('p_ac_table_body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            subs.forEach(sub => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td>10-03-2026</td><td><strong>${sub}</strong></td><td>09:00 AM - 12:00 PM</td><td>________________</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderParentFee(student) {
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('p_fr_name', student.name);
+            setTxt('p_fr_scholar', student.scholar);
+            setTxt('p_fr_class', student.class);
+            setTxt('p_fr_father', student.father);
+            setTxt('p_fr_fee', student.fee);
+            let dues = Number(student.fee) - 10000;
+            setTxt('p_fr_dues', dues > 0 ? dues : 0);
+        }
+
+        function renderParentIDCard(student) {
+            let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.textContent = val; };
+            setTxt('p_id_name', student.name);
+            setTxt('p_id_class', student.class);
+            setTxt('p_id_roll', student.roll);
+            setTxt('p_id_scholar', student.scholar);
+            setTxt('p_id_contact', student.contact);
+
+            let pBox = document.getElementById('p_id_photo_box');
+            if(pBox) {
+                if(student.photo) pBox.innerHTML = `<img src="${student.photo}">`;
+                else pBox.textContent = "PHOTO";
+            }
+        }
+    </script>
+</body>
+</html>
+
