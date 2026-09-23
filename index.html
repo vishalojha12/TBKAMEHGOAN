@@ -718,7 +718,7 @@
                     currentLoggedUser = 'Administrator';
                     openDashboard();
                 } else {
-                    err.textContent = "Galat Password! (Default: TBKA1234)";
+                    err.textContent = "Galat Password!";
                 }
             } else if (role === 'teacher') {
                 let tNameElem = document.getElementById('loginTeacherName');
@@ -733,7 +733,7 @@
                     currentLoggedUser = tName || "Teacher";
                     openDashboard();
                 } else {
-                    err.textContent = "Galat Teacher Password! (Default: TBKA1234)";
+                    err.textContent = "Galat Teacher Password!";
                 }
             } else if (role === 'parent') {
                 let phoneElem = document.getElementById('parentMobile');
